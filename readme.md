@@ -1,69 +1,42 @@
-````markdown
-# GitHub Sensitive Keyword Scanner
+# GitHub Sensitive Data Scanner
 
-This Python script scans files in a specified GitHub repository for sensitive keywords using Selenium and ChromeDriver.
+A lightweight automation tool that crawls a GitHub repository’s file listing and checks for sensitive keywords (like `password`, `token`, or `key`) inside supported files. It uses Selenium WebDriver to dynamically load pages, extract raw file content, and scan for potential credential leaks.
 
-## Features
+---
 
-- Accepts a GitHub repository URL from the user
-- Scans only root-level files
-- Detects keywords: `password`, `token`, `key`, `keys`, `_key`, `_keys`
-- Prints the blob page URL where a sensitive keyword is found
-- Ignores links like `Packages` and `Releases`
-- Does not print the file content
+## Notable Techniques
 
-## Requirements
+* **Dynamic content handling with Selenium**: This project uses [Selenium WebDriver](https://www.selenium.dev/documentation/webdriver/) to control a Chrome browser instance and interact with dynamically loaded GitHub pages.
 
-- Python 3.x
-- Google Chrome
-- ChromeDriver (matching your Chrome version)
-- Python library:
-  ```bash
-  pip install selenium
-````
+* **XPath for element selection**: The [`XPath`](https://developer.mozilla.org/en-US/docs/Web/XPath) query `"//a[normalize-space()='Raw']"` ensures accurate targeting of the “Raw” file button regardless of surrounding HTML structure.
 
-## How to Use
+* **Explicit waits using `WebDriverWait` and `expected_conditions`**: Instead of relying on arbitrary delays, the script waits until elements are fully loaded using [`expected_conditions`](https://selenium-python.readthedocs.io/waits.html), improving both performance and reliability.
 
-1. Clone the repository or copy the script.
-2. Edit the path to your ChromeDriver:
+* **Headless scanning of file listings**: The script loops over visible filenames and filters by extension, simulating how a user would browse and inspect files on GitHub.
 
-   ```python
-   cdp = "/home/kali/Desktop/Chrome Drivers/chromedriver-linux64/chromedriver"
-   ```
-3. Run the script:
+---
 
-   ```bash
-   python3 scanner.py
-   ```
-4. Enter the GitHub repo URL when prompted.
+## Libraries and Technologies
 
-## Supported File Extensions
+* [Selenium](https://pypi.org/project/selenium/): Used for browser automation and page parsing.
+* [Google ChromeDriver](https://sites.google.com/chromium.org/driver/): Required for interfacing with the Chrome browser. Ensure the path is correct for your OS.
 
-* .py
-* .js
-* .html
-* .css
-* .c
-* .cpp
-* .env
+> Note: No external UI frameworks, fonts, or front-end libraries are used in this script.
 
-## How It Works
+---
 
-* Loads the given GitHub repository
-* Extracts all file links from the main page
-* Filters files by extension
-* Visits the blob page of each valid file
-* Opens the raw version of the file
-* Scans its content for any of the defined keywords
-* Prints the blob page URL if a keyword is found
-
-## Example
+## Project Structure
 
 ```
-Enter GitHub repo URL (e.g., https://github.com/user/repo): https://github.com/Test-Account1989/sample-repo
-sensitive keyword 'token' found in: https://github.com/Test-Account1989/sample-repo/blob/main/app.js
-sensitive keyword 'password' found in: https://github.com/Test-Account1989/sample-repo/blob/main/.env
+.
+├── chromedriver-linux64/
+│   └── chromedriver
 ```
 
-```
-```
+* `chromedriver-linux64/`: Local path where ChromeDriver is installed. This path should be updated in the script as per your system.
+
+---
+
+## File Reference
+
+* [`scanner.py`](./scanner.py): Main script to initiate repo scanning and log sensitive keyword matches.
