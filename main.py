@@ -4,7 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-cdp = "/home/kali/Desktop/Chrome Drivers/chromedriver-linux64/chromedriver"
+cdp = "/home/kali/Desktop/Chrome Drivers/chromedriver-linux64/chromedriver" #my address. yours can change
+
 serv = Service(executable_path=cdp)
 driver = webdriver.Chrome(service=serv)
 
