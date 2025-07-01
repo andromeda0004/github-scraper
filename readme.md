@@ -25,18 +25,6 @@ A lightweight automation tool that crawls a GitHub repository’s file listing a
 
 ---
 
-## Project Structure
-
-```
-.
-├── chromedriver-linux64/
-│   └── chromedriver
-```
-
-* `chromedriver-linux64/`: Local path where ChromeDriver is installed. This path should be updated in the script as per your system.
-
----
-
 ## File Reference
 
-* [`scanner.py`](./scanner.py): Main script to initiate repo scanning and log sensitive keyword matches.
+* [`main.py`](./main.py): Main script to initiate repo scanning and log sensitive keyword matches.
